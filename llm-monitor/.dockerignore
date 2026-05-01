@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.RalPh/
+specs/
+*.md
+.env
+.venv/
+data/
+*.db

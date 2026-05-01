@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Monitor Dashboard</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header class="header">
+            <h1>LLM Monitor Dashboard</h1>
+            <div class="header-right">
+                <span id="connection-status" class="status-indicator offline">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connecting...</span>
+                </span>
+            </div>
+        </header>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <div class="filter-group">
+                <label>Date Range:</label>
+                <select id="date-range">
+                    <option value="today">Today</option>
+                    <option value="7d">Last 7 Days</option>
+                    <option value="30d">Last 30 Days</option>
+                    <option value="all">All Time</option>
+                    <option value="custom">Custom Range</option>
+                </select>
+                <input type="datetime-local" id="date-from" class="hidden" />
+                <input type="datetime-local" id="date-to" class="hidden" />
+            </div>
+            <div class="filter-group">
+                <label>Model:</label>
+                <select id="model-filter">
+                    <option value="">All Models</option>
+                </select>
+            </div>
+            <button id="apply-filters" class="btn-primary">Apply</button>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="card">
+                <div class="card-title">Requests</div>
+                <div class="card-value" id="card-requests">—</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Avg Latency</div>
+                <div class="card-value" id="card-latency">—</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Total Tokens</div>
+                <div class="card-value" id="card-tokens">—</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Success Rate</div>
+                <div class="card-value" id="card-success">—</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Avg Prompt TPS</div>
+                <div class="card-value" id="card-prompt-tps">—</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Avg Gen TPS</div>
+                <div class="card-value" id="card-gen-tps">—</div>
+            </div>
+            <div class="card" id="card-gpu-container">
+                <div class="card-title">GPU Util</div>
+                <div class="card-value" id="card-gpu">—</div>
+            </div>
+            <div class="card">
+                <div class="card-title">CPU Usage</div>
+                <div class="card-value" id="card-cpu">—</div>
+            </div>
+        </div>
+
+        <!-- Recent Requests Table -->
+        <div class="table-container">
+            <h3>Recent Requests</h3>
+            <table id="requests-table">
+                <thead>
+                    <tr>
+                        <th data-sort="timestamp">Time ↕</th>
+                        <th data-sort="model">Model ↕</th>
+                        <th data-sort="endpoint">Endpoint ↕</th>
+                        <th data-sort="status_code">Status ↕</th>
+                        <th data-sort="prompt_tokens">Prompt Tokens ↕</th>
+                        <th data-sort="completion_tokens">Completion Tokens ↕</th>
+                        <th data-sort="prompt_tokens_per_second">Prompt TPS ↕</th>
+                        <th data-sort="generation_tokens_per_second">Gen TPS ↕</th>
+                        <th data-sort="total_latency_ms">Latency ↕</th>
+                    </tr>
+                </thead>
+                <tbody id="requests-tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

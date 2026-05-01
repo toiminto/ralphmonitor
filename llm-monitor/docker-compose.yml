@@ -1,0 +1,29 @@
+services:
+  llm-monitor:
+    build: .
+    container_name: llm-monitor
+    ports:
+      - "8008:8008"
+    volumes:
+      - llm-monitor-data:/data
+    environment:
+      - LLM_BACKEND_URL=http://host.docker.internal:8080
+      - MONITOR_PORT=8008
+      - DB_PATH=/data/metrics.db
+      - RETENTION_DAYS=30
+      - GPU_POLL_INTERVAL=5
+      - CPU_POLL_INTERVAL=10
+      - CLEANUP_INTERVAL=3600
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  llm-monitor-data:
